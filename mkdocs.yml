@@ -1,0 +1,28 @@
+site_name: Ikegai v2
+nav:
+  - Home: index.md  
+  - AI Ingestion Workflow: 01-ai-ingestion-workflow.md
+  - Agentic Engine: 02-agentic-engine.md
+  - Agentic Tools: 03-agentic-tool.md
+
+theme: 
+  name: material
+  logo: assets/logo.png
+  palette:
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
+      accent: deep purple
+
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Light mode
+      primary: blue
+      accent: deep orange
+
+copyright: Copyright &copy; 2024 James Willett
+
