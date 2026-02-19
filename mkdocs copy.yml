@@ -5,8 +5,6 @@ nav:
   - 'AI Ingestion Workflow': 
       - 'Overview': 01-ai-ingestion-workflow.md
       - 'Connector Framework': 01-ai-ingestion-workflow/01-connector-framework.md
-  - 'Agentic Engine': 02-agentic-engine.md
-  - 'Agentic Tools': 03-agentic-tool.md
 
 theme: 
   name: material
