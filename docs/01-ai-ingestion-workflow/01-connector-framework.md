@@ -91,13 +91,13 @@ Connects to specialized storage systems used for retrieval-augmented generation 
 ```mermaid
 graph TD
     subgraph Core Reusable Components
-        K[keyvault.py <br> Secrets]
+        K[keyvault Secrets]
         
-        C1[database/ <br> Structured CRUD]
-        C2[doc_processors/ <br> Docling & Azure Doc Intel]
+        C1[database]
+        C2[Document processor]
         
-        E[embeddings/ & vectordb/]
-        L[llm/ <br> Driver: Azure, Google, AWS, Groq]
+        E[Vectordb & Knowledge Graph]
+        L[LLM & Embeddings:: Azure, Google, GCP]
     end
 
     subgraph Project Implementations
@@ -106,16 +106,25 @@ graph TD
         P3[Project Beta]
     end
 
+    CF[Connector Framework]
+
     K -.-> C1
     K -.-> C2
-    C1 --> E
-    C2 --> E
-    E --> L
+    K -.-> E
+    K -.-> L
+
+    C1 -.-> CF
+    C2 -.-> CF
+    E -.-> CF
+    L -.-> CF
+    
+    
+    
     
     %% Reusability routes
-    L ===> P1
-    L ===> P2
-    L ===> P3
+    CF ===> P1
+    CF ===> P2
+    CF ===> P3
 ```
 
 ### Python SDK examples
