@@ -1,18 +1,43 @@
-# Layer 01: AI Ingestion & Workflow
+# AI Data Integration, Ingestion & Workflow
 
-## Purpose
+!!! abstract "Module Overview"
+    This module serves as the central nervous system for data movement. It connects to internal and external sources to ingest data, utilizing **Apache Airflow** to orchestrate intelligent, event-driven, and scheduled pipelines. These pipelines reliably extract, transform, and route data for AI enrichment, predictive models, autonomous agents, and end-user applications.
 
-This layer handles the entry of raw data into the system and manages the workflow state transitions. It ensures that unstructured data (PDFs, Logs, Emails) is normalized before reaching the agent.
+## Integration Sources
 
-## Key Components
+The connector layer abstracts the complexity of securely authenticating and extracting data from a diverse set of origins, categorized into three main types:
 
-### 1. Ingestion Pipelines
+### 1. Unstructured Data
+* **PDF Documents:** Extracts text, tables, and metadata from static documents for downstream vectorization and semantic search.
+* **HTTP/HTTPS (Web Scraping/Crawling):** Ingests raw HTML and web content from external sites and portals.
 
-* **Loaders:** Extract text from various sources (S3, Azure Blob, Web Scrapers).
-* **Chunking Strategy:** Splits text into manageable tokens (e.g., recursive character splitting).
-* **Embedding Generation:** Converts text chunks into vectors using embedding models (e.g., OpenAI, Cohere).
+### 2. Structured Data
+* **Azure SQL:** Pulls relational enterprise data, seamlessly integrating with the broader Azure ecosystem.
+* **PostgreSQL:** Connects to robust, structured transactional databases.
+* **SQLite:** Handles lightweight, local, or microservice-specific relational data stores.
 
-### 2. Workflow Orchestration
+### 3. REST API Based
+* Subscribes to webhooks and actively polls external SaaS platforms, third-party services, and internal microservices via RESTful endpoints.
 
-* **State Management:** Tracks the progress of a request through the system.
-* **DAG Definition:** Defines the Directed Acyclic Graph for data flow.
+---
+
+## Ingestion & Orchestration (Apache Airflow)
+
+Data flow is strictly managed and orchestrated using **Apache Airflow**.
+
+* **DAG-Based Orchestration:** All pipelines are defined as Directed Acyclic Graphs (DAGs) in Python, allowing for clear dependency mapping, parallel execution, and complex workflow logic.
+* **Batch Ingestion:** Scheduled Airflow jobs handle large-scale historical data syncs, bulk updates, and routine ETL processes.
+* **Event-Driven Triggers:** Sensors within Airflow monitor for specific events (e.g., a new PDF landing in a storage bucket or a REST webhook payload), triggering ingestion DAGs dynamically to ensure low-latency responsiveness.
+
+!!! tip "Pipeline Reliability & Monitoring"
+    Airflow provides built-in state management. All orchestrated workflows are designed to be idempotent—if a task fails, Airflow's automated retries will safely re-run the extraction or transformation without duplicating data downstream.
+
+---
+
+## AI Enrichment & Routing
+
+Before data reaches its final destination, Airflow routes it through an enrichment layer optimized for AI consumption. 
+
+1. **Data Normalization:** Cleaning and structuring raw text from PDFs and HTTP sources, and aligning schemas from Azure SQL and Postgres.
+2. **AI Preparation:** Generating embeddings, metadata tagging, and chunking unstructured data.
+3. **Context Routing:** Feeding high-quality, contextual data directly into the agentic engine to support complex LangChain multi-agent interactions and Retrieval-Augmented Generation (RAG).

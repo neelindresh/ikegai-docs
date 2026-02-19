@@ -1,8 +1,8 @@
 site_name: Ikegai v2
 nav:
   - Home:
-      - Introduction: index.md               
-  - 'AI Data Integration, Ingestion & Workflow': 
+      - Introduction: index.md               # Clicking "Home" in the sidebar opens this
+  - 'AI Ingestion Workflow': 
       - 'Overview': 01-ai-ingestion-workflow.md
       - 'Connector Framework': 01-ai-ingestion-workflow/01-connector-framework.md
   - 'Agentic Engine': 02-agentic-engine.md
@@ -11,7 +11,6 @@ nav:
 theme: 
   name: material
   logo: assets/logo.png
-  # icon: assets/logo.png  <-- You can remove this or change it to a Material icon like 'material/library' if you want a fallback
   features:
     - navigation.expand
   palette: 
@@ -26,21 +25,15 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
-plugins:
-  - search
-
 markdown_extensions:
-  - admonition               
-  - pymdownx.details         
+  - admonition               # For "Note", "Tip", "Warning" boxes
+  - pymdownx.details         # Collapsible "See also" sections
+  - pymdownx.superfences     # Allows nesting code blocks inside tabs
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.tabbed:
-      alternate_style: true  
+      alternate_style: true  # Cleaner look matching MS styling
       slugify: !!python/name:pymdownx.slugs.slugify
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
 
-copyright: Copyright &copy; 2026 KPMG India
+copyright: Copyright &copy; 2024 James Willett
+
