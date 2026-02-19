@@ -63,6 +63,7 @@ Handles direct, stateful connections to enterprise transactional and analytical 
 
 ### 3. Cloud Storage & Data Platforms
 Integrates seamlessly with major cloud providers and big data platforms for high-volume batch ingestion.
+
 * **Amazon S3**
 
 * **Azure Data Lake**
