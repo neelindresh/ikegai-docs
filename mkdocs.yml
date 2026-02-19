@@ -2,10 +2,11 @@ site_name: Ikegai v2
 nav:
   - Home:
       - Introduction: index.md               
-  - 'AI Data Integration, Ingestion & Workflow': 
+  - '1. AI Data Integration, Ingestion & Workflow': 
       - 'Overview': 01-ai-ingestion-workflow.md
-      - 'Connector Framework': 01-ai-ingestion-workflow/01-connector-framework.md
-      - 'Ingestion Pipeline & Workflow Orchestration': 01-ai-ingestion-workflow/02-data-ingestion-and-workflow.md
+      - '1.1 Connector Framework': 01-ai-ingestion-workflow/01-connector-framework.md
+      - '1.2 Ingestion Pipeline & Workflow Orchestration': 01-ai-ingestion-workflow/02-data-ingestion-and-workflow.md
+      - '1.3 Change Detection & Ingestion Telemetry':  01-ai-ingestion-workflow/03-change-detection-telemetry.md
 
 theme: 
   name: material

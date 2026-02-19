@@ -46,35 +46,7 @@ When processing massive historical backfills or handling sudden spikes in real-t
 
 * **Task Pools:** Specific resource-intensive connections (like the Azure SQL database connector) are assigned to isolated Airflow pools, ensuring they never exceed connection limits or cause database exhaustion.
 
-
-## Active DAG Pipelines
-
-The orchestration engine currently relies on two primary data ingestion pipelines, each tailored to specific data formats.
-
-### 1. Document Ingestion Pipeline (`doc_ingestion`)
-This complex DAG is responsible for securely pulling, parsing, and transforming uploaded files. It utilizes branching logic to intelligently route data based on extraction success.
-
-* **`get_data_from_queue`**: Picks up the new document processing event triggered by the user upload.
-* **`process_document`**: Hands the raw file off to the `doc_processors` (like Docling or Azure Document Intelligence) to extract text and markdown.
-* **`check_metadata_extraction` (Branch):** A conditional logic node. It verifies if the processor successfully extracted the required metadata and layout structure.
-* **`extract_metadata` & `transform`**: Cleanses the text, chunks the markdown, and prepares the payload for vectorization.
-* **`save_to_mongo`**: Commits the final transformed data and structured embeddings to the database layer.
-
-### 2. URL Ingestion Pipeline (`url_ingestion`)
-A streamlined, linear DAG designed for fast web scraping and data syncing.
-
-* **`get_url`**: Receives the target URL submitted from the dataset application.
-* **`load_data`**: Uses HTTP connectors to scrape the raw HTML or fetch the target payload.
-* **`update_mongo`**: Directly updates the existing records in the database with the newly fetched web content.
-
 ---
-
-## State Management & Observability
-
-To ensure enterprise-grade reliability, Airflow's internal tracking is deeply integrated with your custom infrastructure. 
-
-Instead of relying solely on Airflow's default backend for monitoring, **all logs and states are saved directly into the `AI Data & Knowledge Library/System`**. Because the status of every single task node is centralized here, the frontend application can seamlessly query the library to show users real-time progress bars or error alerts if an ingestion step (like `extract_metadata`) fails.
-
 ## Orchestration Flow & AI Enrichment Diagram
 
 While Apache Airflow handles the *scheduling and coordination* of the pipelines, it does not do the heavy lifting itself. Instead, the DAG nodes actively utilize the **Connector Framework** (detailed in Section 1.1) to execute the extractions. 
@@ -141,6 +113,37 @@ graph TD
 
     
 ```
+
+---
+
+## Active DAG Pipelines
+
+The orchestration engine currently relies on two primary data ingestion pipelines, each tailored to specific data formats.
+
+### 1. Document Ingestion Pipeline (`doc_ingestion`)
+This complex DAG is responsible for securely pulling, parsing, and transforming uploaded files. It utilizes branching logic to intelligently route data based on extraction success.
+
+* **`get_data_from_queue`**: Picks up the new document processing event triggered by the user upload.
+* **`process_document`**: Hands the raw file off to the `doc_processors` (like Docling or Azure Document Intelligence) to extract text and markdown.
+* **`check_metadata_extraction` (Branch):** A conditional logic node. It verifies if the processor successfully extracted the required metadata and layout structure.
+* **`extract_metadata` & `transform`**: Cleanses the text, chunks the markdown, and prepares the payload for vectorization.
+* **`save_to_mongo`**: Commits the final transformed data and structured embeddings to the database layer.
+
+### 2. URL Ingestion Pipeline (`url_ingestion`)
+A streamlined, linear DAG designed for fast web scraping and data syncing.
+
+* **`get_url`**: Receives the target URL submitted from the dataset application.
+* **`load_data`**: Uses HTTP connectors to scrape the raw HTML or fetch the target payload.
+* **`update_mongo`**: Directly updates the existing records in the database with the newly fetched web content.
+
+---
+
+## State Management & Observability
+
+To ensure enterprise-grade reliability, Airflow's internal tracking is deeply integrated with your custom infrastructure. 
+
+Instead of relying solely on Airflow's default backend for monitoring, **all logs and states are saved directly into the `AI Data & Knowledge Library/System`**. Because the status of every single task node is centralized here, the frontend application can seamlessly query the library to show users real-time progress bars or error alerts if an ingestion step (like `extract_metadata`) fails.
+
 
 ---
 

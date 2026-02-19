@@ -3,6 +3,48 @@
 !!! abstract "Framework Overview"
     The Connector Framework provides a standardized, **highly reusable** architecture to securely integrate with any data source. Designed as a collection of modular, plug-and-play components, these modules can be shared and utilized across multiple enterprise projects without having to rewrite core extraction, processing, or authentication logic.
 
+
+## Component Reusability Flow
+
+```mermaid
+graph TD
+    subgraph Core Reusable Components
+        K[keyvault Secrets]
+        
+        C1[database]
+        C2[Document processor]
+        
+        E[Vectordb & Knowledge Graph]
+        L[LLM & Embeddings:: Azure, Google, GCP]
+    end
+
+    subgraph Project Implementations
+        P1[IKEGAI Agentic Engine]
+        P2[Project Alpha]
+        P3[Project Beta]
+    end
+
+    CF[Connector Framework]
+
+    K -.-> C1
+    K -.-> C2
+    K -.-> E
+    K -.-> L
+
+    C1 -.-> CF
+    C2 -.-> CF
+    E -.-> CF
+    L -.-> CF
+    
+    
+    
+    
+    %% Reusability routes
+    CF ===> P1
+    CF ===> P2
+    CF ===> P3
+```
+
 ## Architectural Modules
 
 The framework is organized into independent Python packages, ensuring strict separation of concerns between extraction, document processing, and AI instantiation.
@@ -86,46 +128,6 @@ Connects to specialized storage systems used for retrieval-augmented generation 
 
 ---
 
-## Component Reusability Flow
-
-```mermaid
-graph TD
-    subgraph Core Reusable Components
-        K[keyvault Secrets]
-        
-        C1[database]
-        C2[Document processor]
-        
-        E[Vectordb & Knowledge Graph]
-        L[LLM & Embeddings:: Azure, Google, GCP]
-    end
-
-    subgraph Project Implementations
-        P1[IKEGAI Agentic Engine]
-        P2[Project Alpha]
-        P3[Project Beta]
-    end
-
-    CF[Connector Framework]
-
-    K -.-> C1
-    K -.-> C2
-    K -.-> E
-    K -.-> L
-
-    C1 -.-> CF
-    C2 -.-> CF
-    E -.-> CF
-    L -.-> CF
-    
-    
-    
-    
-    %% Reusability routes
-    CF ===> P1
-    CF ===> P2
-    CF ===> P3
-```
 
 ### Python SDK examples
 
